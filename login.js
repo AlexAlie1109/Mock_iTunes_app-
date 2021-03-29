@@ -3,7 +3,7 @@ const db = require('./iTunes_db.js');
 
 const account = require('./account.js');
 
-const login = () => {
+const login = function(runApp, accountUser){
   inquirer.prompt([
     {
       type: "input",
@@ -16,7 +16,7 @@ const login = () => {
       name: "password"
     }
   ]).then(function(loginInfo){
-    console.log(loginInfo);
+    // console.log(loginInfo);
     // console.log("success");
 
     let query = "SELECT * FROM users WHERE user_name= ";
@@ -31,7 +31,7 @@ const login = () => {
           const user = data[0];
           if(user.password == loginInfo.password){
             console.log("Success");
-            account();
+            account(user);
           }else{
             console.log("Please Enter Correct Password");
             login();

@@ -2,7 +2,7 @@ const inquirer = require('inquirer')
 const db = require('./iTunes_db.js');
 
 
-const signUp = () => {
+const signUp = (runApp) => {
   inquirer.prompt([
     {
       type: "input",

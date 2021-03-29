@@ -28,11 +28,15 @@ INSERT INTO songs (song_name, artist) VALUES ("The Wagon", "Dinosaur Jr.");
 INSERT INTO songs (song_name, artist) VALUES ("El Chupa Nibre", "MF DOOM");
 
 INSERT INTO bought_songs (user_id, song_id) VALUES (1, 3);
+INSERT INTO bought_songs (user_id, song_id) VALUES (7, 4);
+
+-- DELETE FROM bought_songs WHERE user_id = 1;
+-- DELETE FROM users WHERE id = 6;
 
 SELECT * FROM users;
 SELECT * FROM songs;
 
-SELECT users.user_name
-FROM users
-INNER JOIN bought_songs ON bought_songs.user_id = users.id
-WHERE bought_songs.user_id = 1;
+SELECT songs.id
+FROM songs
+INNER JOIN bought_songs ON bought_songs.song_id = songs.id
+WHERE bought_songs.user_id = 7;
