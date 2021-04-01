@@ -25,6 +25,7 @@ const accountUser = (user) => {
       addSong(user);
     }else{
       console.log("Goodbye");
+      login(user);
     }
   })
 }
@@ -36,6 +37,8 @@ function addSong(user){
     let ownedSongs = data.map((song) => song.id)
     console.log(ownedSongs);
     db.query("SELECT * FROM songs", function(err2, data2){
+      // console.log("this is data2")
+      // console.log(data2)
       let allSongs = data2.map((song) => song.id)
       // console.log(allSongs)
 
@@ -49,7 +52,7 @@ function addSong(user){
         data3.forEach((songs, i) => {
           // console.log(songs);
           // console.log(i);
-          songs4sale.push((i + 1) + "." +data3[i].artist+ ":" +data3[i].song_name);
+          songs4sale.push((i + 1) + "." + " " +data3[i].artist+ ":" + " " +data3[i].song_name);
         })
         songs4sale.push("Back");
         // console.log("Songs 4 Sale");
@@ -63,19 +66,20 @@ function addSong(user){
           }
         ]).then(function(music){
           if(music.songChoices != "Back"){
-            db.query("SELECT id FROM songs WHERE artist = '"+music.songChoices.split(":")+"'", function(err5, data5){
+            db.query("SELECT id FROM songs WHERE artist = '"+music.songChoices.split(":")[0].split(".")+"'", function(err, data){
               if(err){
                 throw new Error(err5);
               }
-              console.log(data5)
-              // db.query("INSERT INTO bought_songs (user_id, song_id) VALUES ("+user.id+", "+data5[0].id+")", function(err6, data6){
-              //   if(err){
-              //     throw new Error(err6)
-              //   }
-              //   console.log("Succesfully Purchased")
-              //   // console.log(music.songChoices);
-              //   accountUser(user);
-              // })
+              console.log("this is data5")
+              console.log(data);
+              db.query("INSERT INTO bought_songs (user_id, song_id) VALUES ("+user.id+", "+data3[0].id+")", function(err6, data6){
+                if(err){
+                  throw new Error(err6)
+                }
+                console.log("Succesfully Purchased")
+                // console.log(music.songChoices);
+                accountUser(user);
+              })
             })
           }else{
             console.log("Going Back");
@@ -96,11 +100,5 @@ function viewPlaylist(user){
     accountUser(user);
   })
 }
-
-
-// SELECT *
-// FROM songs
-// INNER JOIN bought_songs ON bought_songs.song_id = songs.id
-// WHERE bought_songs.user_id = 1;
 
 module.exports = accountUser;
